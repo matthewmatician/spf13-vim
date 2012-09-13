@@ -236,6 +236,7 @@
     set incsearch                   " find as you type search
     set hlsearch                    " highlight search terms
     set winminheight=3              " this is what I want
+    set winheight=10                " this is what I want
     set ignorecase                  " case insensitive search
     set smartcase                   " case sensitive when uc present
     set wildmenu                    " show list instead of just completing
