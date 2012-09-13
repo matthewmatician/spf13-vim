@@ -1,12 +1,12 @@
 " Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-"                    __ _ _____              _
-"         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
-"        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
-"        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
-"        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
-"            |_|
+"                     _  ____ _____             _
+"     _ __ ___  _ __ | |/__ /|__  /    __   __(_)_ __ ___
+"    | '_ ` _ \| '_ \| | |_ \  / /_____\ \ / /| | '_ ` _ \
+"    | | | | | | |   | |___) |/ /|_____|\ V / | | | | | | |
+"    |_| |_| |_|_|   |_|____/|_|         \_/  |_|_| |_| |_|
+
 "
 "   This is the personal .vimrc file of Steve Francia.
 "   While much of it is beneficial for general use, I would
@@ -21,12 +21,13 @@
         set background=dark     " Assume a dark background
     " }
 
+    "////// NOT NEEDED:
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
-        if has('win32') || has('win64')
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-        endif
+        " if has('win32') || has('win64')
+          " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+        " endif
     " }
     "
     " Setup Bundle Support {
@@ -166,15 +167,15 @@
     syntax on                   " syntax highlighting
     set mouse=a                 " automatically enable mouse usage
     scriptencoding utf-8
-    autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-    " always switch to the current file directory.
+    "//not wanted: always switch to the current file directory.
+    "autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
 
-    " set autowrite                  " automatically write a file when leaving a modified buffer
+    "set autowrite                  " automatically write a file when leaving a modified buffer
     set shortmess+=filmnrxoOtT      " abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
     set virtualedit=onemore         " allow for cursor beyond last character
     set history=1000                " Store a ton of history (default is 20)
-    set spell                       " spell checking on
+    "set spell                       " spell checking on
     set hidden                      " allow buffer switching without saving
 
     " Setting up the directories {
@@ -234,7 +235,7 @@
     set showmatch                   " show matching brackets/parenthesis
     set incsearch                   " find as you type search
     set hlsearch                    " highlight search terms
-    set winminheight=0              " windows can be 0 line high
+    set winminheight=3              " this is what I want
     set ignorecase                  " case insensitive search
     set smartcase                   " case sensitive when uc present
     set wildmenu                    " show list instead of just completing
@@ -242,7 +243,7 @@
     set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
-    set foldenable                  " auto fold code
+    "set foldenable                  " auto fold code
     set list
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 
@@ -258,7 +259,7 @@
     set softtabstop=4               " let backspace delete indent
     "set matchpairs+=<:>                " match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+    set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
     autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
@@ -270,14 +271,34 @@
     "location
     let mapleader = ','
 
-    " Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
-    nnoremap ; :
+    "///NOT WANTED: Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
+    "nnoremap ; :
 
-    " Easier moving in tabs and windows
-    map <C-J> <C-W>j<C-W>_
-    map <C-K> <C-W>k<C-W>_
-    map <C-L> <C-W>l<C-W>_
-    map <C-H> <C-W>h<C-W>_
+    " Fix meta-keys which generate <Esc>a...<Esc>z
+    let c='a'
+    while c <= 'z'
+       exec "set <M-".toupper(c).">=\e".c
+       exec "imap \e".c." <M-".toupper(c).">"
+       let c = nr2char(1+char2nr(c))
+    endw
+
+    "Easier moving/resizing in tabs and windows
+    map <C-J> <C-W>j
+    map <C-k> <C-W>k
+    map <C-l> <C-W>l
+    map <C-h> <C-W>h
+    map <silent> <M-J> :res +3<cr>
+    map <silent> <M-K> :res -3<cr>
+    map <silent> <M-H> <C-W>8< 
+    map <silent> <M-L> <C-W>8>
+    map <silent> + :tabn<cr>
+    map <silent> _ :tabp<cr>
+
+    "Easier escapes to keep us on home-row
+    imap jj <esc>
+    imap kk <esc>
+    imap hh <esc>
+    imap lll <esc>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
@@ -289,20 +310,20 @@
     map <S-H> gT
     map <S-L> gt
 
-    " Stupid shift key fixes
-    if has("user_commands")
-        command! -bang -nargs=* -complete=file E e<bang> <args>
-        command! -bang -nargs=* -complete=file W w<bang> <args>
-        command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-        command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-        command! -bang Wa wa<bang>
-        command! -bang WA wa<bang>
-        command! -bang Q q<bang>
-        command! -bang QA qa<bang>
-        command! -bang Qa qa<bang>
-    endif
+    "/////NOT WANTED: Stupid shift key fixes
+    "if has("user_commands")
+        "command! -bang -nargs=* -complete=file E e<bang> <args>
+        "command! -bang -nargs=* -complete=file W w<bang> <args>
+        "command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+        "command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+        "command! -bang Wa wa<bang>
+        "command! -bang WA wa<bang>
+        "command! -bang Q q<bang>
+        "command! -bang QA qa<bang>
+        "command! -bang Qa qa<bang>
+    "endif
 
-    cmap Tabe tabe
+    "cmap Tabe tabe
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
@@ -320,27 +341,29 @@
     nmap <leader>f9 :set foldlevel=9<CR>
 
     "clearing highlighted search
-    nmap <silent> <leader>/ :nohlsearch<CR>
+    nmap <silent> <C-N> :silent noh<CR> "This is what I want
+    "nmap <silent> <leader>/ :nohlsearch<CR>
 
     " Shortcuts
     " Change Working Directory to that of the current file
     cmap cwd lcd %:p:h
     cmap cd. lcd %:p:h
 
-    " visual shifting (does not exit Visual mode)
-    vnoremap < <gv
-    vnoremap > >gv
+    "////NOT WANTED visual shifting (does not exit Visual mode)
+    "vnoremap < <gv
+    "vnoremap > >gv
 
     " Fix home and end keybindings for screen, particularly on mac
     " - for some reason this fixes the arrow keys too. huh.
-    map [F $
-    imap [F $
-    map [H g0
-    imap [H g0
+    "map [F $
+    "imap [F $
+    "map [H g0
+    "imap [H g0
 
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
 
+    "////TODO Learn this to memory
     " Some helpers to edit mode
     " http://vimcasts.org/e/14
     cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -349,8 +372,8 @@
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
 
-    " Adjust viewports to the same size
-    map <Leader>= <C-w>=
+    "////NOT WANTED Adjust viewports to the same size
+    "map <Leader>= <C-w>=
 
     " Easier horizontal scrolling
     map zl zL
@@ -569,7 +592,7 @@
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
         set guioptions-=T           " remove the toolbar
-        set lines=40                " 40 lines of text instead of 24,
+        set lines=40                " 50 lines of text instead of 24,
         if has("gui_gtk2")
             set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         else
