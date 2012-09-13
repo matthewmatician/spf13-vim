@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-endpath="$HOME/.mrl37-vim-3"
+endpath="$HOME/.mrl37-vim"
 
 warn() {
     echo "$1" >&2
@@ -19,7 +19,7 @@ today=`date +%Y%m%d`
 for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do [ -e $i ] && mv $i $i.$today; done
 
 
-echo "cloning spf13-vim\n"
+#echo "cloning mrl37-vim\n"
 git clone --recursive -b 3.0 http://github.com/matthewmatician/spf13-vim.git $endpath
 mkdir -p $endpath/.vim/bundle
 ln -s $endpath/.vimrc $HOME/.vimrc

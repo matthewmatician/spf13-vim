@@ -21,13 +21,12 @@
         set background=dark     " Assume a dark background
     " }
 
-    "////// NOT NEEDED:
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
-        " if has('win32') || has('win64')
-          " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-        " endif
+        if has('win32') || has('win64')
+          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+        endif
     " }
     "
     " Setup Bundle Support {
@@ -60,7 +59,8 @@
     " In your .vimrc.bundles.local file"
     " list only the plugin groups you will use
     if !exists('g:spf13_bundle_groups')
-        let g:spf13_bundle_groups=['general', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc']
+        "///NOT USING: 'ruby', 'python'
+        let g:spf13_bundle_groups=['general', 'programming', 'php', 'javascript', 'html', 'misc']
     endif
 
     " To override all the included bundles, put
@@ -373,8 +373,8 @@
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
 
-    "////NOT WANTED Adjust viewports to the same size
-    "map <Leader>= <C-w>=
+    " Adjust viewports to the same size
+    map <Leader>= <C-w>=
 
     " Easier horizontal scrolling
     map zl zL
