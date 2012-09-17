@@ -8,11 +8,10 @@
 "    |_| |_| |_|_|   |_|____/|_|         \_/  |_|_| |_| |_|
 
 "
-"   This is the personal .vimrc file of Steve Francia.
-"   While much of it is beneficial for general use, I would
-"   recommend picking out the parts you want and understand.
+"   This is the personal .vimrc file of Matthew Larson
+"   It is based upon the ultimate vim distribution of Steve Francia (spf13)
 "
-"   You can find me at http://spf13.com
+"   You can find more info at http://spf13.com
 " }
 
 " Environment {
@@ -21,21 +20,12 @@
         set background=dark     " Assume a dark background
     " }
 
-    " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
-        if has('win32') || has('win64')
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-        endif
-    " }
-    "
     " Setup Bundle Support {
     " The next three lines ensure that the ~/.vim/bundle/ system works
         filetype off
         set rtp+=~/.vim/bundle/vundle
         call vundle#rc()
     " }
-
 " }
 
 " Bundles {
@@ -94,6 +84,7 @@
             Bundle 'scrooloose/syntastic'
             Bundle 'garbas/vim-snipmate'
             Bundle 'spf13/snipmate-snippets'
+
             " Source support_function.vim to support snipmate-snippets.
             if filereadable(expand("~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim"))
                 source ~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim
@@ -161,11 +152,13 @@
 " General {
     set background=dark         " Assume a dark background
     if !has('gui')
-        "set term=$TERM          " Make arrow and other keys work
+        set term=$TERM          " Make arrow and other keys work
     endif
+
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " syntax highlighting
     set mouse=a                 " automatically enable mouse usage
+
     scriptencoding utf-8
     "//not wanted: always switch to the current file directory.
     "autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
@@ -235,20 +228,23 @@
     set showmatch                   " show matching brackets/parenthesis
     set incsearch                   " find as you type search
     set hlsearch                    " highlight search terms
-    set winminheight=3              " this is what I want
     set winheight=10                " this is what I want
+    set winminheight=3              " this is what I want
     set ignorecase                  " case insensitive search
     set smartcase                   " case sensitive when uc present
+    set title
+    set ttyfast
     set wildmenu                    " show list instead of just completing
     set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
     set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
-    "set foldenable                  " auto fold code
+    set foldenable                  " auto fold code
     set list
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
-
-
+    
+    set splitbelow
+    set splitright
 " }
 
 " Formatting {
@@ -260,7 +256,7 @@
     set softtabstop=4               " let backspace delete indent
     "set matchpairs+=<:>                " match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
     autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
@@ -268,32 +264,23 @@
 
 " Key (re)Mappings {
 
-    "The default leader is '\', but many people prefer ',' as it's in a standard
-    "location
-    let mapleader = ','
+    "The default leader is '\', but I prefer the <space> as it is easy to reach,
+    "but I still prefer to use ',' for navigation.
+    let mapleader = ' '
 
-    "///NOT WANTED: Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
-    "nnoremap ; :
-
-    " Fix meta-keys which generate <Esc>a...<Esc>z
-    let c='a'
-    while c <= 'z'
-       exec "set <M-".toupper(c).">=\e".c
-       exec "imap \e".c." <M-".toupper(c).">"
-       let c = nr2char(1+char2nr(c))
-    endw
-
-    "Easier moving/resizing in tabs and windows
+    "Easier moving/resizing in windows
     map <C-J> <C-W>j
     map <C-k> <C-W>k
     map <C-l> <C-W>l
     map <C-h> <C-W>h
-    map <silent> <M-J> :res +3<cr>
-    map <silent> <M-K> :res -3<cr>
-    map <silent> <M-H> <C-W>8< 
-    map <silent> <M-L> <C-W>8>
-    map <silent> + :tabn<cr>
-    map <silent> _ :tabp<cr>
+    map <silent> <M-j> :res +3<cr>
+    map <silent> <M-k> :res -3<cr>
+    map <silent> <M-h> <C-W>8<
+    map <silent> <M-l> <C-W>8>
+
+    "For tab navigation:
+    map + gt
+    map _ gT
 
     "Easier escapes to keep us on home-row
     imap jj <esc>
@@ -305,26 +292,10 @@
     nnoremap j gj
     nnoremap k gk
 
-    " The following two lines conflict with moving to top and bottom of the
-    " screen
+    " The following two lines conflict with moving to top and bottom of the screen
     " If you prefer that functionality, comment them out.
-    map <S-H> gT
-    map <S-L> gt
-
-    "/////NOT WANTED: Stupid shift key fixes
-    "if has("user_commands")
-        "command! -bang -nargs=* -complete=file E e<bang> <args>
-        "command! -bang -nargs=* -complete=file W w<bang> <args>
-        "command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-        "command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-        "command! -bang Wa wa<bang>
-        "command! -bang WA wa<bang>
-        "command! -bang Q q<bang>
-        "command! -bang QA qa<bang>
-        "command! -bang Qa qa<bang>
-    "endif
-
-    "cmap Tabe tabe
+    "map <S-H> gT
+    "map <S-L> gt
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
@@ -342,17 +313,12 @@
     nmap <leader>f9 :set foldlevel=9<CR>
 
     "clearing highlighted search
-    nmap <silent> <C-N> :silent noh<CR> "This is what I want
-    "nmap <silent> <leader>/ :nohlsearch<CR>
+    nmap <silent> <C-N> :silent noh<CR>
 
     " Shortcuts
     " Change Working Directory to that of the current file
     cmap cwd lcd %:p:h
     cmap cd. lcd %:p:h
-
-    "////NOT WANTED visual shifting (does not exit Visual mode)
-    "vnoremap < <gv
-    "vnoremap > >gv
 
     " Fix home and end keybindings for screen, particularly on mac
     " - for some reason this fixes the arrow keys too. huh.
@@ -364,7 +330,7 @@
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
 
-    "////TODO Learn this to memory
+    "//TODO Learn this to memory
     " Some helpers to edit mode
     " http://vimcasts.org/e/14
     cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -431,7 +397,7 @@
     " SnipMate {
         " Setting the author var
         " If forking, please overwrite in your .vimrc.local file
-        let g:snips_author = 'Steve Francia <steve.francia@gmail.com>'
+        let g:snips_author = 'Matthew Larson <matthew@czartheory.com>'
     " }
 
     " NerdTree {
@@ -593,7 +559,8 @@
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
         set guioptions-=T           " remove the toolbar
-        set lines=40                " 50 lines of text instead of 24,
+        set lines=90                " 50 lines of text instead of 24,
+        set columns=200
         if has("gui_gtk2")
             set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         else
