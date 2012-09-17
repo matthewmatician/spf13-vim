@@ -1,6 +1,6 @@
-# spf13-vim : Matthew Larson's Vim Distribution
+# mrl37-vim : Matthew Larson's Vim Distribution
 
-                     _  ____ _____             _
+                     _  ____ _____            _
      _ __ ___  _ __ | |/__ /|__  /    __   __(_)_ __ ___
     | '_ ` _ \| '_ \| | |_ \  / /_____\ \ / /| | '_ ` _ \
     | | | | | | |   | |___) |/ /|_____|\ V / | | | | | | |
