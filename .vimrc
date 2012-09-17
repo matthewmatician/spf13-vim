@@ -18,6 +18,8 @@
     " Basics {
         set nocompatible        " must be first line
         set background=dark     " Assume a dark background
+        set encoding=utf-8
+        set fillchars+=stl:\ ,stlnc:\
     " }
 
     " Setup Bundle Support {
@@ -123,7 +125,8 @@
     " HTML
         if count(g:spf13_bundle_groups, 'html')
             Bundle 'amirh/HTML-AutoCloseTag'
-            Bundle 'ChrisYip/Better-CSS-Syntax-for-Vim'
+            "Bundle 'ChrisYip/Better-CSS-Syntax-for-Vim'
+            Bundle 'cakebaker/scss-syntax.vim'
         endif
 
     " Ruby
@@ -160,11 +163,12 @@
     set mouse=a                 " automatically enable mouse usage
 
     scriptencoding utf-8
+
     "//not wanted: always switch to the current file directory.
     "autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
 
     "set autowrite                  " automatically write a file when leaving a modified buffer
-    set shortmess+=filmnrxoOtT      " abbrev. of messages (avoids 'hit enter')
+    ""set shortmess+=filmnrxoOtT      " abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
     set virtualedit=onemore         " allow for cursor beyond last character
     set history=1000                " Store a ton of history (default is 20)
@@ -242,7 +246,7 @@
     set foldenable                  " auto fold code
     set list
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
-    
+
     set splitbelow
     set splitright
 " }
@@ -299,6 +303,9 @@
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
+
+    " Break line under cursor (parallels 'join lines' key)
+    map K i<CR><Esc>
 
     """ Code folding options
     nmap <leader>f0 :set foldlevel=0<CR>
@@ -357,6 +364,8 @@
     " Misc {
         let g:NERDShutUp=1
         let b:match_ignorecase = 1
+        let g:NERDTreeDirArrows=0
+        let g:Powerline_symbols = 'fancy'
     " }
 
     " OmniComplete {
@@ -562,9 +571,9 @@
         set lines=90                " 50 lines of text instead of 24,
         set columns=200
         if has("gui_gtk2")
-            set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+            set guifont=Inconsolata-dz\ for\ Powerline 14,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         else
-            set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+            set guifont=Inconsolata-dz\ for\ Powerline:h14,Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
         endif
         if has('gui_macvim')
             set transparency=5          " Make the window slightly transparent
