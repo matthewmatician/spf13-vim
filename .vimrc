@@ -365,7 +365,7 @@
         let g:NERDShutUp=1
         let b:match_ignorecase = 1
         let g:NERDTreeDirArrows=0
-        let g:Powerline_symbols = 'fancy'
+        "let g:Powerline_symbols = 'fancy'
     " }
 
     " OmniComplete {
@@ -561,6 +561,10 @@
      " UndoTree {
         nnoremap <c-u> :UndotreeToggle<CR>
      " }
+
+     "Numbers {
+        nnoremap <Leader>n :NumbersToggle<CR>
+     "}
 
 " }
 
