@@ -1,6 +1,5 @@
-#!/usr/bin/env sh
-
-endpath="$HOME/mrl37-vim"
+#!/bin/bash
+endpath=$(dirname $0)
 
 warn() {
     echo "$1" >&2
