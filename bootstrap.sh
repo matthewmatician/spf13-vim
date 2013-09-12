@@ -10,7 +10,7 @@ die() {
     exit 1
 }
 
-echo "thanks for installing mrl37-vim\n"
+echo "now installing mrl37-vim\n"
 
 # Backup existing .vim stuff
 echo "backing up current vim config\n"
