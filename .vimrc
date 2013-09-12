@@ -77,7 +77,6 @@
             Bundle 'flazz/vim-colorschemes'
             Bundle 'corntrace/bufexplorer'
             Bundle 'mbbill/undotree'
-            Bundle 'myusuf3/numbers.vim'
         endif
 
     " General Programming
@@ -243,7 +242,7 @@
     set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
-    set foldenable                  " auto fold code
+    set nofoldenable                  " auto fold code
     set list
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 
@@ -357,7 +356,7 @@
 " Plugins {
 
     " PIV {
-        let g:DisableAutoPHPFolding = 0
+        let g:DisableAutoPHPFolding = 1
         let g:PIVAutoClose = 0
     " }
 
@@ -561,11 +560,6 @@
      " UndoTree {
         nnoremap <c-u> :UndotreeToggle<CR>
      " }
-
-     "Numbers {
-        nnoremap <Leader>n :NumbersToggle<CR>
-     "}
-
 " }
 
 " GUI Settings {
